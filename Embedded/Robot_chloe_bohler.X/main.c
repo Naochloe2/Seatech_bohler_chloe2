@@ -21,7 +21,7 @@ InitTimer23();
 InitTimer1();
 
 InitPWM();
-PWMSetSpeed(50);
+PWMSetSpeed(20);
 
 LED_BLANCHE = 1;
 LED_BLEUE = 1;
