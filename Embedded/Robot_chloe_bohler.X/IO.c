@@ -43,6 +43,10 @@ void InitIO()
     _TRISG6 = 0; //LED Blanche
 
     _TRISG7 = 0; // LED Bleue
+    
+    _LATB15 = 0;
+    
+    _LATB14 = 0;
 
     
 

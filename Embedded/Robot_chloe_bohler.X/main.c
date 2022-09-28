@@ -3,17 +3,25 @@
 #include <xc.h>
 #include "ChipConfig.h"
 #include "IO.h"
+#include "timer.h"
+#include "Robot.h"
+#include "PWM.h"
 
 int main (void){
 /***************************************************************************************************/
 //Initialisation de l?oscillateur
 /****************************************************************************************************/
 InitOscillator();
-
 /****************************************************************************************************/
 // Configuration des entrées sorties
 /****************************************************************************************************/
 InitIO();
+
+InitTimer23();
+InitTimer1();
+
+InitPWM();
+PWMSetSpeed(50);
 
 LED_BLANCHE = 1;
 LED_BLEUE = 1;
