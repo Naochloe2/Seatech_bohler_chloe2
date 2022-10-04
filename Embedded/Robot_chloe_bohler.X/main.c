@@ -6,6 +6,7 @@
 #include "timer.h"
 #include "Robot.h"
 #include "PWM.h"
+#include "ADC.h"
 
 int main(void) {
     /***************************************************************************************************/
@@ -21,6 +22,8 @@ int main(void) {
     InitTimer1();
 
     InitPWM();
+    InitADC1();
+    
     PWMSetSpeedConsigne(20, MOTEUR_DROIT);
     PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
 
