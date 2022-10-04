@@ -1,5 +1,6 @@
 #ifndef ROBOT_H
 #define ROBOT_H
+#include "PWM.h"
 
 typedef struct robotStateBITS {
 
