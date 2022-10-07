@@ -2,6 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/main.c</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/PWM.c</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/PWM.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/IO.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/Robot.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/timer.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/ToolBox.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/ChipConfig.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/IO.c</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/timer.c</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/ADC.c</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/ADC.h</file>
+        </group>
     </open-files>
 </project-private>
