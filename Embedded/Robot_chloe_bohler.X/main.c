@@ -31,8 +31,8 @@ int main(void) {
     LED_BLEUE = 1;
     LED_ORANGE = 1;
     
-    InitADC1(void);
-    unsigned int ? result = ADCGetResult( ) ;
+    InitADC1();
+//    unsigned int * result = ADCGetResult( );
     /****************************************************************************************************/
     // Boucle Principale
     /****************************************************************************************************/
