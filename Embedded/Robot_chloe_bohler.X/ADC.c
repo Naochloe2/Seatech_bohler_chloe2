@@ -1,5 +1,6 @@
 #include <xc.h>
 #include "ADC.h"
+#include "main.h"
 
 unsigned char ADCResultIndex = 0;
 static unsigned int ADCResult[4];
@@ -31,9 +32,7 @@ void InitADC1(void) {
     AD1CON2bits.SMPI = 2; // 2+1 conversions successives avant interrupt
     AD1CON2bits.ALTS = 0;
     AD1CON2bits.BUFM = 0;
-
-
-
+    
     /************************************************************/
     //AD1CON3
     /************************************************************/
