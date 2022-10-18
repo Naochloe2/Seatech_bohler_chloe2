@@ -13,7 +13,7 @@ unsigned long timestamp;
 void InitTimer1(void) {
     //Timer1 pour horodater les mesures (1ms)
     T1CONbits.TON = 0; // Disable Timer
-    SetFreqTimer1(2.5);
+    SetFreqTimer1(50);
 //    T1CONbits.TCKPS = 0b10; //Prescaler
     //11 = 1:256 prescale value
     //10 = 1:64 prescale value
@@ -77,15 +77,15 @@ unsigned char toggle = 0;
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
     //LED_ORANGE = !LED_ORANGE;
-    if (toggle == 0) {
-        PWMSetSpeedConsigne(20, MOTEUR_DROIT);
-        PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
-        toggle = 1;
-    } else {
-        PWMSetSpeedConsigne(-20, MOTEUR_DROIT);
-        PWMSetSpeedConsigne(-20, MOTEUR_GAUCHE);
-        toggle = 0;
-    }
+//    if (toggle == 0) {
+//        PWMSetSpeedConsigne(20, MOTEUR_DROIT);
+//        PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
+//        toggle = 1;
+//    } else {
+//        PWMSetSpeedConsigne(-20, MOTEUR_DROIT);
+//        PWMSetSpeedConsigne(-20, MOTEUR_GAUCHE);
+//        toggle = 0;
+//    }
 }
 
 void InitTimer4(void) {
@@ -103,6 +103,7 @@ void InitTimer4(void) {
 void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
     IFS1bits.T4IF = 0; // Clear Timer3 Interrupt Flag
     timestamp =  timestamp+ 1;
+    OperatingSystemLoop();
 }
 
 void SetFreqTimer4(float freq) {
