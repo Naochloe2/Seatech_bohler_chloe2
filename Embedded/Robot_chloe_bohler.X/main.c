@@ -54,7 +54,7 @@ int main(void) {
             volts = ((float) result[3])*3.3 / 4096 * 3.2;
             robotState.distanceTelemetreExtremeGauche = 34 / volts - 5;
             volts = ((float) result[4])*3.3 / 4096 * 3.2;
-            robotState.distanceTelemetreDroit = 34 / volts - 5;
+            robotState.distanceTelemetreGauche = 34 / volts - 5;
 
             //            ADCValue0 = result[0]*3.2;
             //            ADCValue1 = result[1]*3.2;
@@ -238,13 +238,6 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(V_AVANCE, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
-
-                payloadState[0] = 0;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b110001100:
@@ -277,12 +270,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 1 + (a < 0.5);
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b111000000:
@@ -291,12 +278,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 2;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b001000000:
@@ -305,12 +286,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 2;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b000110000:
@@ -319,12 +294,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 1;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b000111100:
@@ -333,12 +302,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 1;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b000101100:
@@ -347,12 +310,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 1;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b000010000:
@@ -361,12 +318,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 1;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b000011100:
@@ -375,12 +326,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 1;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
                 /////////////////////////////////////////////
@@ -398,12 +343,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b001110000:
@@ -418,12 +357,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b111110000:
@@ -432,12 +365,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b111010000:
@@ -446,12 +373,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b110010000:
@@ -460,12 +381,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b110100000:
@@ -474,12 +389,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b110110000:
@@ -488,12 +397,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b001100000:
@@ -508,12 +411,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b111100000:
@@ -522,12 +419,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b001011100:
@@ -536,12 +427,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b001101100:
@@ -550,12 +435,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b001111100:
@@ -564,12 +443,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
             case 0b001001100:
@@ -578,12 +451,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
 
-                payloadState[0] = 3;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 break;
 
                 //////////////////////////////////
@@ -607,12 +474,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b111111101; // MODE JE TOURNE sur place
 
-                payloadState[0] = 4;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
 
                 timestamp = 0;
                 robotState.tpsBlocked = 0;
@@ -624,12 +485,6 @@ void OperatingSystemLoop(void) {
                 oldStateRobot = stateRobot;
                 stateRobot = 0b111111101; // MODE JE TOURNE sur place
 
-                payloadState[0] = 4;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
                 timestamp = 0;
                 robotState.tpsBlocked = 0;
                 break;
@@ -639,12 +494,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b111111101; // MODE JE TOURNE sur place
-                payloadState[0] = 4;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
+
                 timestamp = 0;
                 robotState.tpsBlocked = 0;
                 break;
@@ -654,12 +504,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b111111101; // MODE JE TOURNE sur place
-                payloadState[0] = 4;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
+
                 timestamp = 0;
                 robotState.tpsBlocked = 0;
                 break;
@@ -669,12 +514,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b111111101; // MODE JE TOURNE sur place
-                payloadState[0] = 4;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
+
                 timestamp = 0;
                 robotState.tpsBlocked = 0;
                 break;
@@ -684,12 +524,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b111111101; // MODE JE TOURNE sur place
-                payloadState[0] = 4;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
+
                 timestamp = 0;
                 robotState.tpsBlocked = 0;
                 break;
@@ -699,12 +534,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b111111101; // MODE JE TOURNE sur place
-                payloadState[0] = 4;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
+
                 timestamp = 0;
                 robotState.tpsBlocked = 0;
                 break;
@@ -714,12 +544,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
-                payloadState[0] = 5;
-                payloadState[1] = (timestamp >> 24) & 0xFF;
-                payloadState[2] = (timestamp >> 16) & 0xFF;
-                payloadState[3] = (timestamp >> 8) & 0xFF;
-                payloadState[4] = timestamp & 0xFF;
-                UartEncodeAndSendMessage(0x0050, sizeof (payloadState) / sizeof (char), payloadState);
+
                 break;
 
             default:
@@ -743,7 +568,7 @@ void SetNextRobotStateInAutomaticMode() {
         bitsExGauche = 0b00;
 
     int bitsExDroite;
-    if (robotState.distanceTelemetreExtremeDroite < thresholdExtDroite1)
+    if (robotState.distanceTelemetreExtremeDroit < thresholdExtDroite1)
         bitsExDroite = 0b11;
     else // robotState.distanceTelemetreExtremeDroite > thresholdExtDroite3
         bitsExDroite = 0b00;
@@ -751,7 +576,7 @@ void SetNextRobotStateInAutomaticMode() {
     nextStateRobot = (bitsExGauche << 7) +
             ((int) (robotState.distanceTelemetreGauche < thresholdGauche) << 6) +
             ((int) (robotState.distanceTelemetreCentre < thresholdCentre) << 5) +
-            ((int) (robotState.distanceTelemetreDroite < thresholdDroite) << 4) +
+            ((int) (robotState.distanceTelemetreDroit < thresholdDroite) << 4) +
             (bitsExDroite << 2) +
             ((int) (robotState.tpsBlocked > thresholdTpsBlocked) << 1);
 
@@ -764,29 +589,20 @@ void SetNextRobotStateInAutomaticMode() {
         // CUSTOM LED DEBUG
         if (((nextStateRobot & (1 << 8)) >> 8) || ((nextStateRobot & (1 << 6)) >> 6)) LED_BLANCHE = 1;
         else LED_BLANCHE = 0;
-        payloadLED[0] = 0;
-        payloadLED[1] = LED_BLANCHE;
-        UartEncodeAndSendMessage(0x0020, 2, payloadLED);
-
+        
         if ((nextStateRobot & (1 << 5)) >> 5) LED_BLEUE = 1;
         else LED_BLEUE = 0;
-        payloadLED[0] = 1;
-        payloadLED[1] = LED_BLEUE;
-        UartEncodeAndSendMessage(0x0020, 2, payloadLED);
+
 
         if (((nextStateRobot & (1 << 2)) >> 2) || ((nextStateRobot & (1 << 4)) >> 4))
             LED_ORANGE = 1;
         else LED_ORANGE = 0;
-        payloadLED[0] = 2;
-        payloadLED[1] = LED_ORANGE;
-        UartEncodeAndSendMessage(0x0020, 2, payloadLED);
+
     } else; // on reste dans l'état recherche
 
     // Reset le timer si on est pas blocké
     if (nextStateRobot == 0)
         robotState.tpsBlocked = 0;
 
-
-}
 
 }
