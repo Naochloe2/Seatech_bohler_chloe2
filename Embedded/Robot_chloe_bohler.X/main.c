@@ -8,12 +8,12 @@
 #include "PWM.h"
 #include "ADC.h"
 #include "main.h"
-#include <stdint.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 //unsigned int ADCValue0;
 //unsigned int ADCValue1;
 //unsigned int ADCValue2;
-unsigned char stateRobot;
 
 int main(void) {
     /***************************************************************************************************/
@@ -201,19 +201,15 @@ void OperatingSystemLoop(void) {
         SetNextRobotStateInAutomaticMode();
 
     if ((stateRobot & (1 << 1)) >> 1) { // case blocked since thresholdTpsBlocked
-        PWMSetSpeedConsigne(100, MOTEUR_DROIT);
-        PWMSetSpeedConsigne(-100, MOTEUR_GAUCHE);
+        PWMSetSpeedConsigne(30, MOTEUR_DROIT);
+        PWMSetSpeedConsigne(-30, MOTEUR_GAUCHE);
         stateRobot = 0b111111101; // MODE JE TOURNE
         timestamp = 0;
     } else {
         switch (stateRobot) {
                 // CAS NO UPDATE DONE
             case 0b000000001:
-                break;
-
-                ////////////////////////////////////
-                // LEEEEESSSSSTTTTTT GOOOOOOOOOOOO
-                ////////////////////////////////////
+                break;       
 
             case 0b000000000:
                 PWMSetSpeedConsigne(V_AVANCE_PLUS, MOTEUR_DROIT);
@@ -226,6 +222,7 @@ void OperatingSystemLoop(void) {
                 /////////////////////////////////////////////
                 // CAS OBSTACLE BORD, RESTE LIBRE -> On continu d'avancer mais on tourne legerement
                 /////////////////////////////////////////////
+                
             case 0b110000000:
                 PWMSetSpeedConsigne(V_AVANCE, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(V_AVANCE_PLUS, MOTEUR_GAUCHE);
@@ -250,7 +247,7 @@ void OperatingSystemLoop(void) {
                 }
                 oldStateRobot = stateRobot;
                 b = !b;
-                stateRobot = 0b000000001;
+                stateRobot = 0b000000001;    ///????
 
           
                 break;
@@ -301,6 +298,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -309,6 +307,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -317,6 +316,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -325,6 +325,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -342,6 +343,7 @@ void OperatingSystemLoop(void) {
                 }
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -356,6 +358,7 @@ void OperatingSystemLoop(void) {
                 }
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -364,6 +367,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -372,6 +376,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -380,6 +385,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -388,6 +394,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -396,6 +403,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -418,6 +426,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -426,6 +435,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -434,6 +444,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -442,6 +453,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -450,6 +462,7 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
                 oldStateRobot = stateRobot;
                 stateRobot = 0b000000001;
+                robotState.tpsBlocked = robotState.tpsBlocked + 1;
 
                 break;
 
@@ -539,14 +552,6 @@ void OperatingSystemLoop(void) {
                 robotState.tpsBlocked = 0;
                 break;
 
-                // RECUL
-            case 0b011111101:
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-
-                break;
-
             default:
                 stateRobot = 0b000000001;
                 break;
@@ -583,7 +588,7 @@ void SetNextRobotStateInAutomaticMode() {
 
     // Change l'etat courant en fonction
     if (nextStateRobot != oldStateRobot) {
-        stateRobot = nextStateRobot;
+        stateRobot = nextStateRobot;  
         oldStateRobot = nextStateRobot;
 
         // CUSTOM LED DEBUG
@@ -602,7 +607,7 @@ void SetNextRobotStateInAutomaticMode() {
 
     // Reset le timer si on est pas blocké
     if (nextStateRobot == 0)
-        robotState.tpsBlocked = 0;
+        robotState.tpsBlocked = 0;   //???
 
 
 }

@@ -29,7 +29,7 @@
 #define V_AVANCE_MOINS 20
 #define V_Rota 20
 #define V_Rota_moins 20
-#define TPS_DEMITOUR 3
+#define TPS_DEMITOUR 5000
 
 void OperatingSystemLoop(void);
 void SetNextRobotStateInAutomaticMode(void);
