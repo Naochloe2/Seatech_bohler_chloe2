@@ -15,6 +15,19 @@
 //unsigned int ADCValue1;
 //unsigned int ADCValue2;
 
+
+
+int thresholdExtGauche1 = 25;
+int thresholdGauche = 35;
+int thresholdCentre = 30; // plutot mettre de l'info ici
+int thresholdDroite = 35;
+int thresholdExtDroite1 = 25;
+
+int nextStateRobot;
+int stateRobot;
+
+unsigned char sensorState;
+
 int main(void) {
     /***************************************************************************************************/
     //Initialisation de l?oscillateur
@@ -33,12 +46,13 @@ int main(void) {
     InitPWM();
     InitADC1();
 
-    PWMSetSpeedConsigne(20, MOTEUR_DROIT);
-    PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
+    //    PWMSetSpeedConsigne(20, MOTEUR_DROIT);
+    //    PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
 
     LED_BLANCHE = 0;
     LED_BLEUE = 0;
     LED_ORANGE = 0;
+    
 
 
     while (1) {
@@ -51,94 +65,42 @@ int main(void) {
             robotState.distanceTelemetreDroit = 34 / volts - 5;
             volts = ((float) result[2])*3.3 / 4096 * 3.2;
             robotState.distanceTelemetreCentre = 34 / volts - 5;
-            volts = ((float) result[3])*3.3 / 4096 * 3.2;
-            robotState.distanceTelemetreExtremeGauche = 34 / volts - 5;
             volts = ((float) result[4])*3.3 / 4096 * 3.2;
             robotState.distanceTelemetreGauche = 34 / volts - 5;
+            volts = ((float) result[3])*3.3 / 4096 * 3.2;
+            robotState.distanceTelemetreExtremeGauche = 34 / volts - 5;
 
-            //            ADCValue0 = result[0]*3.2;
-            //            ADCValue1 = result[1]*3.2;
-            //            ADCValue2 = result[2]*3.2;
-            //            
-            //            if (ADCValue0 > 1011)
-            //                LED_ORANGE = 1;
-            //            else 
-            //                LED_ORANGE = 0;
-            //            if (ADCValue1 > 1011)
-            //                LED_BLEUE = 1;
-            //            else 
-            //                LED_BLEUE = 0;
-            //            if (ADCValue2 > 1011)
-            //                LED_BLANCHE = 1;
-            //            else 
-            //                LED_BLANCHE = 0;
+            if (robotState.distanceTelemetreExtremeGauche < thresholdExtGauche1 || robotState.distanceTelemetreGauche < thresholdGauche)
+                LED_BLANCHE  = 1;
+            else
+                LED_BLANCHE = 0;
+
+            if (robotState.distanceTelemetreCentre < thresholdCentre)
+                LED_BLEUE = 1;
+            else
+                LED_BLEUE = 0;
+
+            if (robotState.distanceTelemetreExtremeDroit < thresholdExtDroite1 || robotState.distanceTelemetreDroit < thresholdDroite)
+                LED_ORANGE = 1;
+            else
+                LED_ORANGE = 0;
+
+            sensorState = 0;
+            if (robotState.distanceTelemetreExtremeGauche < thresholdExtGauche1)
+                sensorState = sensorState | 0b10000;
+            if (robotState.distanceTelemetreGauche < thresholdGauche)
+                sensorState = sensorState | 0b01000;
+            if (robotState.distanceTelemetreCentre < thresholdCentre)
+                sensorState = sensorState | 0b00100;
+            if (robotState.distanceTelemetreDroit < thresholdDroite)
+                sensorState = sensorState | 0b00010;
+            if (robotState.distanceTelemetreExtremeDroit < thresholdExtDroite1)
+                sensorState = sensorState | 0b00001;
+
         }
     }
 }
 
-//void OperatingSystemLoop(void) {
-//    switch (stateRobot) {
-//        case STATE_ATTENTE:
-//            timestamp = 0;
-//            PWMSetSpeedConsigne(0, MOTEUR_DROIT);
-//            PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
-//            stateRobot = STATE_ATTENTE_EN_COURS;
-//
-//        case STATE_ATTENTE_EN_COURS:
-//            if (timestamp > 1000)
-//                stateRobot = STATE_AVANCE;
-//            break;
-//
-//        case STATE_AVANCE:
-//            PWMSetSpeedConsigne(30, MOTEUR_DROIT);
-//            PWMSetSpeedConsigne(30, MOTEUR_GAUCHE);
-//            stateRobot = STATE_AVANCE_EN_COURS;
-//            break;
-//        case STATE_AVANCE_EN_COURS:
-//            SetNextRobotStateInAutomaticMode();
-//            break;
-//
-//        case STATE_TOURNE_GAUCHE:
-//            PWMSetSpeedConsigne(30, MOTEUR_DROIT);
-//            PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
-//            stateRobot = STATE_TOURNE_GAUCHE_EN_COURS;
-//            break;
-//        case STATE_TOURNE_GAUCHE_EN_COURS:
-//            SetNextRobotStateInAutomaticMode();
-//            break;
-//
-//        case STATE_TOURNE_DROITE:
-//            PWMSetSpeedConsigne(0, MOTEUR_DROIT);
-//            PWMSetSpeedConsigne(30, MOTEUR_GAUCHE);
-//            stateRobot = STATE_TOURNE_DROITE_EN_COURS;
-//            break;
-//        case STATE_TOURNE_DROITE_EN_COURS:
-//            SetNextRobotStateInAutomaticMode();
-//            break;
-//
-//        case STATE_TOURNE_SUR_PLACE_GAUCHE:
-//            PWMSetSpeedConsigne(15, MOTEUR_DROIT);
-//            PWMSetSpeedConsigne(-15, MOTEUR_GAUCHE);
-//            stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS;
-//            break;
-//        case STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS:
-//            SetNextRobotStateInAutomaticMode();
-//            break;
-//
-//        case STATE_TOURNE_SUR_PLACE_DROITE:
-//            PWMSetSpeedConsigne(-15, MOTEUR_DROIT);
-//            PWMSetSpeedConsigne(15, MOTEUR_GAUCHE);
-//            stateRobot = STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS;
-//            break;
-//        case STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS:
-//            SetNextRobotStateInAutomaticMode();
-//            break;
-//
-//        default:
-//            stateRobot = STATE_ATTENTE;
-//            break;
-//    }
-//}
 //
 //unsigned char nextStateRobot = 0;
 //
@@ -178,436 +140,195 @@ int main(void) {
 //    if (nextStateRobot != stateRobot - 1)
 //        stateRobot = nextStateRobot;
 
-uint16_t stateRobot = 0b000000001; // état courant
-uint16_t oldStateRobot = 0b0000001; // ancien état hors recherche
-uint16_t nextStateRobot = 0b0000001; // pochain état hors recherche
-float a;
-int b = 1;
-
-int thresholdExtGauche1 = 20;
-int thresholdGauche = 25;
-int thresholdCentre = 35; // plutot mettre de l'info ici
-int thresholdDroite = 25;
-int thresholdExtDroite1 = 20;
-
-uint16_t thresholdTpsBlocked = 5000; // tps max durant lequel on a pas eu 5 des capteurs à 0
-
 void OperatingSystemLoop(void) {
-    // Détermination de l état des caméras du robot
-    // 00 0 0 0 00  0  0
-    // EG G C D ED tps spe
 
-    if (stateRobot == 0b000000001) // Mode Recherche (activé lorsque le dernier état à été effectué) => update stateRobot
-        SetNextRobotStateInAutomaticMode();
-
-    if ((stateRobot & (1 << 1)) >> 1) { // case blocked since thresholdTpsBlocked
-        PWMSetSpeedConsigne(30, MOTEUR_DROIT);
-        PWMSetSpeedConsigne(-30, MOTEUR_GAUCHE);
-        stateRobot = 0b111111101; // MODE JE TOURNE
-        timestamp = 0;
-    } else {
-        switch (stateRobot) {
-                // CAS NO UPDATE DONE
-            case 0b000000001:
-                break;       
-
-            case 0b000000000:
-                PWMSetSpeedConsigne(V_AVANCE_PLUS, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(V_AVANCE_PLUS, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-
-                break;
-
-                /////////////////////////////////////////////
-                // CAS OBSTACLE BORD, RESTE LIBRE -> On continu d'avancer mais on tourne legerement
-                /////////////////////////////////////////////
-                
-            case 0b110000000:
-                PWMSetSpeedConsigne(V_AVANCE, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(V_AVANCE_PLUS, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                break;
-
-            case 0b000001100:
-                PWMSetSpeedConsigne(V_AVANCE_PLUS, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(V_AVANCE, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                break;
-
-            case 0b110001100:
-                if (b) {
-                    PWMSetSpeedConsigne(V_AVANCE, MOTEUR_DROIT);
-                    PWMSetSpeedConsigne(V_AVANCE_MOINS, MOTEUR_GAUCHE);
-                } else {
-                    PWMSetSpeedConsigne(V_AVANCE_MOINS, MOTEUR_DROIT);
-                    PWMSetSpeedConsigne(V_AVANCE, MOTEUR_GAUCHE);
-                }
-                oldStateRobot = stateRobot;
-                b = !b;
-                stateRobot = 0b000000001;    ///????
-
-          
-                break;
-
-                /////////////////////////////////////////////
-                // CAS OBSTACLE DEVANT, COTE LIBRE -> tourne
-                /////////////////////////////////////////////
-            case 0b000100000:
-                a = (double) rand() / (double) RAND_MAX;
-                if (a > 0.5) {
-                    PWMSetSpeedConsigne(V_Rota_moins, MOTEUR_DROIT);
-                    PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_GAUCHE);
-                } else {
-                    PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_DROIT);
-                    PWMSetSpeedConsigne(V_Rota_moins, MOTEUR_GAUCHE);
-                }
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-
-                break;
-
-            case 0b111000000:
-                PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(V_Rota_moins, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-
-                break;
-
-            case 0b001000000:
-                PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(V_Rota_moins, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-
-                break;
-
-            case 0b000110000:
-                PWMSetSpeedConsigne(V_Rota_moins, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-
-                break;
-
-            case 0b000111100:
-                PWMSetSpeedConsigne(V_Rota_moins, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b000101100:
-                PWMSetSpeedConsigne(V_Rota_moins, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b000010000:
-                PWMSetSpeedConsigne(V_Rota_moins, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b000011100:
-                PWMSetSpeedConsigne(V_Rota_moins, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota_moins, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-                /////////////////////////////////////////////
-                // CAS OBSTACLE DEVANT + COTE -> demi-tour //  
-                /////////////////////////////////////////////
-            case 0b001010000:
-                a = (double) rand() / (double) RAND_MAX;
-                if (a > 0.5) {
-                    PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                    PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                } else {
-                    PWMSetSpeedConsigne(-V_Rota, MOTEUR_DROIT);
-                    PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
-                }
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b001110000:
-                a = (double) rand() / (double) RAND_MAX;
-                if (a > 0.5) {
-                    PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                    PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                } else {
-                    PWMSetSpeedConsigne(-V_Rota, MOTEUR_DROIT);
-                    PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
-                }
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b111110000:
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b111010000:
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b110010000:
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b110100000:
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b110110000:
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b001100000:
-                a = (double) rand() / (double) RAND_MAX;
-                if (a < 0.8) {
-                    PWMSetSpeedConsigne(-V_Rota, MOTEUR_DROIT);
-                    PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
-                } else {
-                    PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                    PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                }
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-
-                break;
-
-            case 0b111100000:
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b001011100:
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b001101100:
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b001111100:
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-            case 0b001001100:
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b000000001;
-                robotState.tpsBlocked = robotState.tpsBlocked + 1;
-
-                break;
-
-                //////////////////////////////////
-                // CAS CUL SAC -> demi tour //////
-                //////////////////////////////////
-
-                // CAS JE TOURNE SUR PLACE
-            case 0b111111101:
-                if (timestamp > TPS_DEMITOUR) { // tps pour faire un demi tour
-                    stateRobot = 0b000000001;
-                    oldStateRobot = 0b000000001;
-                    timestamp = 0;
-                    robotState.tpsBlocked = 0;
-                } else
-                    break;
-                break;
-
-            case 0b110011100:
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b111111101; // MODE JE TOURNE sur place
-
-
-                timestamp = 0;
-                robotState.tpsBlocked = 0;
-                break;
-
-            case 0b110101100:
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b111111101; // MODE JE TOURNE sur place
-
-                timestamp = 0;
-                robotState.tpsBlocked = 0;
-                break;
-
-            case 0b110111100:
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b111111101; // MODE JE TOURNE sur place
-
-                timestamp = 0;
-                robotState.tpsBlocked = 0;
-                break;
-
-            case 0b111001100:
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b111111101; // MODE JE TOURNE sur place
-
-                timestamp = 0;
-                robotState.tpsBlocked = 0;
-                break;
-
-            case 0b111011100:
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b111111101; // MODE JE TOURNE sur place
-
-                timestamp = 0;
-                robotState.tpsBlocked = 0;
-                break;
-
-            case 0b111101100:
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b111111101; // MODE JE TOURNE sur place
-
-                timestamp = 0;
-                robotState.tpsBlocked = 0;
-                break;
-
-            case 0b111111100:
-                PWMSetSpeedConsigne(V_Rota, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-V_Rota, MOTEUR_GAUCHE);
-                oldStateRobot = stateRobot;
-                stateRobot = 0b111111101; // MODE JE TOURNE sur place
-
-                timestamp = 0;
-                robotState.tpsBlocked = 0;
-                break;
-
-            default:
-                stateRobot = 0b000000001;
-                break;
-        }
+    switch (sensorState) {
+        case 0b00000:
+            nextStateRobot = STATE_AVANCE;
+            break;
+        case 0b00001:
+            nextStateRobot = STATE_TOURNE_GAUCHE;
+            break;
+        case 0b00010:
+            nextStateRobot = STATE_TOURNE_GAUCHE;
+            break;
+        case 0b00011:
+            nextStateRobot = STATE_TOURNE_GAUCHE;
+            break;
+        case 0b00100:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b00101:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
+            break;
+        case 0b00110:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
+            break;
+        case 0b00111:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
+            break;
+        case 0b01000:
+            nextStateRobot = STATE_TOURNE_DROITE;
+            break;
+        case 0b01001:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b01010:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b01011:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
+            break;
+        case 0b01100:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b01101:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b01110:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b01111:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
+            break;
+        case 0b10000:
+            nextStateRobot = STATE_TOURNE_DROITE;
+            break;
+        case 0b10001:
+            nextStateRobot = STATE_AVANCE;
+            break;
+        case 0b10010:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
+            break;
+        case 0b10011:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
+            break;
+        case 0b10100:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b10101:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b10110:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
+            break;
+        case 0b10111:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
+            break;
+        case 0b11000:
+            nextStateRobot = STATE_TOURNE_DROITE;
+            break;
+        case 0b11001:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b11010:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b11011:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b11100:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b11101:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b11110:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+        case 0b11111:
+            nextStateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
     }
+    
+    SetNextRobotStateInAutomaticMode();
 }
+
 
 void SetNextRobotStateInAutomaticMode() {
 
-    // Condition particulière (à souhait)
-
-    // Détermination de l état des caméras du robot
-    // 00 0 0 0 00  0  0
-    // EG G C D ED tps spe
-    int bitsExGauche;
-    if (robotState.distanceTelemetreExtremeGauche < thresholdExtGauche1)
-        bitsExGauche = 0b11;
-    else // robotState.distanceTelemetreExtremeGauche > thresholdExtGauche3
-        bitsExGauche = 0b00;
-
-    int bitsExDroite;
-    if (robotState.distanceTelemetreExtremeDroit < thresholdExtDroite1)
-        bitsExDroite = 0b11;
-    else // robotState.distanceTelemetreExtremeDroite > thresholdExtDroite3
-        bitsExDroite = 0b00;
-
-    nextStateRobot = (bitsExGauche << 7) +
-            ((int) (robotState.distanceTelemetreGauche < thresholdGauche) << 6) +
-            ((int) (robotState.distanceTelemetreCentre < thresholdCentre) << 5) +
-            ((int) (robotState.distanceTelemetreDroit < thresholdDroite) << 4) +
-            (bitsExDroite << 2) +
-            ((int) (robotState.tpsBlocked > thresholdTpsBlocked) << 1);
-
-
     // Change l'etat courant en fonction
-    if (nextStateRobot != oldStateRobot) {
-        stateRobot = nextStateRobot;  
-        oldStateRobot = nextStateRobot;
+    if (nextStateRobot != stateRobot - 1) {
+        stateRobot = nextStateRobot;
 
-        // CUSTOM LED DEBUG
-        if (((nextStateRobot & (1 << 8)) >> 8) || ((nextStateRobot & (1 << 6)) >> 6)) LED_BLANCHE = 1;
-        else LED_BLANCHE = 0;
-        
-        if ((nextStateRobot & (1 << 5)) >> 5) LED_BLEUE = 1;
-        else LED_BLEUE = 0;
+        switch (stateRobot) {
+            case STATE_ATTENTE:
+                timestamp = 0;
+                PWMSetSpeedConsigne(0, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
+                stateRobot = STATE_ATTENTE_EN_COURS;
 
+            case STATE_ATTENTE_EN_COURS:
+                if (timestamp > 1000)
+                    stateRobot = STATE_AVANCE;
+                break;
 
-        if (((nextStateRobot & (1 << 2)) >> 2) || ((nextStateRobot & (1 << 4)) >> 4))
-            LED_ORANGE = 1;
-        else LED_ORANGE = 0;
+            case STATE_AVANCE:
+                PWMSetSpeedConsigne(30, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(30, MOTEUR_GAUCHE);
+                stateRobot = STATE_AVANCE_EN_COURS;
+                break;
+            case STATE_AVANCE_EN_COURS:
+                SetNextRobotStateInAutomaticMode();
+                break;
 
-    } else; // on reste dans l'état recherche
+            case STATE_TOURNE_GAUCHE:
+                PWMSetSpeedConsigne(20, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(5, MOTEUR_GAUCHE);
+                stateRobot = STATE_TOURNE_GAUCHE_EN_COURS;
+                break;
+            case STATE_TOURNE_GAUCHE_EN_COURS:
+                SetNextRobotStateInAutomaticMode();
+                break;
+                
+            case STATE_TOURNE_LEGER_GAUCHE:
+                PWMSetSpeedConsigne(20, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(15, MOTEUR_GAUCHE);
+                stateRobot = STATE_TOURNE_GAUCHE_LEGER_EN_COURS;
+                break;
+            case STATE_TOURNE_GAUCHE_LEGER_EN_COURS:
+                SetNextRobotStateInAutomaticMode();
+                break;
 
-    // Reset le timer si on est pas blocké
-    if (nextStateRobot == 0)
-        robotState.tpsBlocked = 0;   //???
+            case STATE_TOURNE_DROITE:
+                PWMSetSpeedConsigne(5, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
+                stateRobot = STATE_TOURNE_DROITE_EN_COURS;
+                break;
+            case STATE_TOURNE_DROITE_EN_COURS:
+                SetNextRobotStateInAutomaticMode();
+                break;
+                
+            case STATE_TOURNE_LEGER_DROITE:
+                PWMSetSpeedConsigne(15, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
+                stateRobot = STATE_TOURNE_DROITE_LEGER_EN_COURS;
+                break;
+            case STATE_TOURNE_DROITE_LEGER_EN_COURS:
+                SetNextRobotStateInAutomaticMode();
+                break;
 
+            case STATE_TOURNE_SUR_PLACE_GAUCHE:
+                PWMSetSpeedConsigne(10, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(-10, MOTEUR_GAUCHE);
+                stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS;
+                break;
+            case STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS:
+                SetNextRobotStateInAutomaticMode();
+                break;
 
+            case STATE_TOURNE_SUR_PLACE_DROITE:
+                PWMSetSpeedConsigne(-10, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(10, MOTEUR_GAUCHE);
+                stateRobot = STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS;
+                break;
+            case STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS:
+                SetNextRobotStateInAutomaticMode();
+                break;
+
+            default:
+                stateRobot = STATE_ATTENTE;
+                break;
+        }
+    }
 }

@@ -13,7 +13,7 @@ unsigned long timestamp;
 void InitTimer1(void) {
     //Timer1 pour horodater les mesures (1ms)
     T1CONbits.TON = 0; // Disable Timer
-    SetFreqTimer1(50);
+    SetFreqTimer1(250);
 //    T1CONbits.TCKPS = 0b10; //Prescaler
     //11 = 1:256 prescale value
     //10 = 1:64 prescale value
@@ -30,7 +30,7 @@ void InitTimer1(void) {
 //Interruption du timer 1
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
-    LED_BLEUE = !LED_BLEUE;
+    //LED_BLEUE = !LED_BLEUE;
     PWMUpdateSpeed();
     ADC1StartConversionSequence();
 }
@@ -102,7 +102,7 @@ void InitTimer4(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
     IFS1bits.T4IF = 0; // Clear Timer3 Interrupt Flag
-    timestamp =  timestamp+ 1;
+    timestamp =  timestamp + 1;
     OperatingSystemLoop();
 }
 
