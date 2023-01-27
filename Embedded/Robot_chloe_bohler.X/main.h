@@ -38,3 +38,4 @@
 
 void OperatingSystemLoop(void);
 void SetNextRobotStateInAutomaticMode(void);
+void InitUART(void);
