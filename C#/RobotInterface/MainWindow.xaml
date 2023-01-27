@@ -26,7 +26,8 @@
             <TextBox x:Name="textBoxReception" TextWrapping="Wrap" Margin="0" BorderBrush="{x:Null}" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True"/>
         </GroupBox>
         <TextBox x:Name="textBoxEmission" TextWrapping="Wrap" Margin="0,19,0,0" Grid.Column="1" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" AcceptsReturn="True" KeyUp="textBoxEmission_KeyUp"/>
-        <Button x:Name="buttonEnvoyer" Content="Envoyer" HorizontalAlignment="Center" Width="100" Height="30" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="3" Click="button_Click" Background="#FFD8D7D7" BorderBrush="#FF3F53D4" Foreground="#FF211C1C"/>
+        <Button x:Name="buttonEnvoyer" Content="Envoyer" HorizontalAlignment="Center" Width="100" Height="30" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="3" Click="button_Click"/>
+        <Button x:Name="buttonTest" Content="Test" HorizontalAlignment="Center" Width="100" Height="30" Grid.Column="3" Grid.Row="3" Click="buttonTest_Click"/>
 
     </Grid>
 </Window>
