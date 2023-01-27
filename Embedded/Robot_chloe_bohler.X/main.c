@@ -53,6 +53,8 @@ int main(void) {
     LED_BLEUE = 0;
     LED_ORANGE = 0;
     
+    SendMessageDirect((unsigned char*) "Bonjour", 7);
+__  delay32(40000000);
 
 
     while (1) {
