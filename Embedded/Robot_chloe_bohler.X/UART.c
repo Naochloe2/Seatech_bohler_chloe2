@@ -1,8 +1,11 @@
 #include <xc.h>
 #include "UART.h"
 #include "ChipConfig.h"
+#include "UART.h"
 #define BAUDRATE 115200
 #define BRGVAL ((FCY/BAUDRATE)/4)-1
+
+
 void InitUART(void) {
 U1MODEbits.STSEL = 0; // 1-stop bit
 U1MODEbits.PDSEL = 0; // No Parity, 8-data bits
@@ -18,4 +21,14 @@ IFS0bits.U1RXIF = 0; // clear RX interrupt flag
 IEC0bits.U1RXIE = 0; // Disable UART Rx interrupt
 U1MODEbits.UARTEN = 1; // Enable UART
 U1STAbits.UTXEN = 1; // Enable UART Tx
+}
+
+void SendMessageDirect(unsigned char* message, int length)
+{
+unsigned char i=0;
+for(i=0; i<length; i++)
+{
+while ( U1STAbits.UTXBF); // wait while Tx buffer full
+U1TXREG = *(message)++; // Transmit one character
+}
 }
