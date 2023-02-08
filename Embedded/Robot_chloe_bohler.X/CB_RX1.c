@@ -24,6 +24,7 @@ unsigned char CB_RX1_Get(void) {
 }
 
 unsigned char CB_RX1_IsDataAvailable(void) {
+    
     if (cbRx1Head != cbRx1Tail)
         return 1;
     else
