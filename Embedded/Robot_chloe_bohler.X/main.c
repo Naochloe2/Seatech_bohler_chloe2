@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <xc.h>
+#include <libpic30.h>
 #include "ChipConfig.h"
 #include "IO.h"
 #include "timer.h"
@@ -8,6 +9,9 @@
 #include "PWM.h"
 #include "ADC.h"
 #include "main.h"
+#include "UART.h"
+#include "CB_TX1.h"
+#include "CB_RX1.h"
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -45,6 +49,9 @@ int main(void) {
 
     InitPWM();
     InitADC1();
+    
+    InitUART();
+    // InitTx();
 
     //    PWMSetSpeedConsigne(20, MOTEUR_DROIT);
     //    PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
@@ -53,11 +60,24 @@ int main(void) {
     LED_BLEUE = 0;
     LED_ORANGE = 0;
     
-    SendMessageDirect((unsigned char*) "Bonjour", 7);
-__  delay32(40000000);
-
+    
 
     while (1) {
+        
+//        SendMessageDirect((unsigned char*) "Bonjour", 7);
+//        
+        SendMessage((unsigned char*) "Bonjour", 7);
+        __delay32(40000000);
+        
+//        int i;
+//        for(i=0; i< CB_RX1_GetDataSize(); i++)
+//        {
+//            unsigned char c = CB_RX1_Get();
+//            SendMessage(&c,1);
+//        }
+//        __delay32(1000);
+
+        
         if (ADCIsConversionFinished()) {
             unsigned int * result = ADCGetResult();
             ADCClearConversionFinishedFlag();

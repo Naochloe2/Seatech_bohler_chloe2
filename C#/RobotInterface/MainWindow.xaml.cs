@@ -31,7 +31,7 @@ namespace RobotInterface
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1 = new ReliableSerialPort("COM11", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM12", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
 
@@ -45,7 +45,7 @@ namespace RobotInterface
             while (robot.byteListReceived.Count > 0)
             {
                 byte c = robot.byteListReceived.Dequeue();
-                textBoxReception.Text += c.ToString();
+                textBoxReception.Text += "0x"+c.ToString("X2")+" ";
             }
         }
 
