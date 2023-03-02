@@ -25,7 +25,7 @@ void SendMessageDirect(unsigned char* message, int length) {
     unsigned char i = 0;
     for (i = 0; i < length; i++) {
         while (U1STAbits.UTXBF); // wait while Tx buffer full
-        U1TXREG = *(message)++; // Transmit one character
+            U1TXREG = *(message)++; // Transmit one character
     }
 }
 
@@ -46,3 +46,4 @@ void SendMessageDirect(unsigned char* message, int length) {
 //        U1TXREG = U1RXREG;
 //    }
 //}
+
