@@ -64,7 +64,7 @@ namespace RobotInterface
             }
             toggle = !toggle;
             Send();
-            
+
         }
 
         private void Send()
@@ -83,7 +83,7 @@ namespace RobotInterface
         public void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
             robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
-            
+
             for (int i = 0; i < e.Data.Length; i++)
                 robot.byteListReceived.Enqueue(e.Data[i]);
         }
@@ -104,7 +104,7 @@ namespace RobotInterface
 
         byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
-            byte checksum=0;            
+            byte checksum = 0;
             checksum ^= 0xFE;
             checksum ^= (byte)(msgFunction >> 8);
             checksum ^= (byte)(msgFunction >> 0);
@@ -115,7 +115,7 @@ namespace RobotInterface
                 checksum ^= msgPayload[i];
             }
             return checksum;
-}
+        }
 
 
         void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
@@ -127,8 +127,8 @@ namespace RobotInterface
             message[pos++] = 0xFE;
             message[pos++] = (byte)(msgFunction >> 8); //MSB
             message[pos++] = (byte)(msgFunction >> 0); //LSB
-            message[pos++] = (byte)(msgPayloadLength>>8);
-            message[pos++] = (byte)(msgPayloadLength>>0);
+            message[pos++] = (byte)(msgPayloadLength >> 8);
+            message[pos++] = (byte)(msgPayloadLength >> 0);
             for (int i = 0; i < msgPayloadLength; i++)
             {
                 message[pos++] = msgPayload[i];
@@ -192,7 +192,7 @@ namespace RobotInterface
                     break;
                 case StateReception.Payload:
                     msgDecodedPayload[msgDecodedPayloadIndex++] = c;
-                    if(msgDecodedPayloadIndex>= msgDecodedPayloadLength)
+                    if (msgDecodedPayloadIndex >= msgDecodedPayloadLength)
                         rcvState = StateReception.CheckSum;
                     break;
                 case StateReception.CheckSum:
@@ -203,10 +203,10 @@ namespace RobotInterface
                     if (calculatedChecksum == receivedChecksum)
                     {
                         Console.WriteLine("decodage Reussi");
-                    //Success, on a un message valide
+                        //Success, on a un message valide
                     }
                     rcvState = StateReception.Waiting;
-                    
+
                     break;
                 default:
                     rcvState = StateReception.Waiting;
@@ -214,5 +214,23 @@ namespace RobotInterface
             }
         }
 
+        
+        void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+            checkboxLed1.IsChecked = false;
+            //switch (supervision)
+            //{
+            //    case
+            //        break;
+            //    case
+            //        break;
+            //    case
+            //        break;
+            //    case
+            //        break;
+            //    case
+            //        break;
+            //}
+        }
     }
 }
