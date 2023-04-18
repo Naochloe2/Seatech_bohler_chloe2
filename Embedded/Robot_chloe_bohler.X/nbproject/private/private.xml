@@ -13,6 +13,12 @@
             <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/UART.c</file>
             <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/UART.h</file>
             <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/Robot.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/ToolBox.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/PWM.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/timer.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/main.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/ChipConfig.h</file>
+            <file>file:/C:/GitHub/Seatech_bohler_chloe2/Embedded/Robot_chloe_bohler.X/ADC.h</file>
         </group>
     </open-files>
 </project-private>
