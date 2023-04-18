@@ -47,6 +47,7 @@ namespace RobotInterface
                 byte c = robot.byteListReceived.Dequeue();
                 DecodeMessage(c);
                 //textBoxReception.Text += "0x"+c.ToString("X2")+" ";
+                ProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
 
             }
         }
@@ -214,23 +215,62 @@ namespace RobotInterface
             }
         }
 
+        public enum Typemessage
+        {
+            texte = 0x0080,
+            Led = 0x0020,
+            DistanceIR = 0x0030,
+            VitesseConsigne = 0x0040,
+        }
+
         
         void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
             checkboxLed1.IsChecked = false;
-            //switch (supervision)
-            //{
-            //    case
-            //        break;
-            //    case
-            //        break;
-            //    case
-            //        break;
-            //    case
-            //        break;
-            //    case
-            //        break;
-            //}
+            switch ((Typemessage)msgFunction)
+            {
+                case Typemessage.texte:
+
+                    textBoxReception.Text = Encoding.ASCII.GetString(msgPayload);
+
+                    break;
+                case Typemessage.Led:
+                    switch(msgPayload[0])
+                    {
+                        case 1:
+                            if (msgPayload[1] == 1)
+                                checkboxLed1.IsChecked = true;
+                            else 
+                                checkboxLed1.IsChecked = false;
+                            break;
+                        case 2:
+                            if (msgPayload[1] == 1)
+                                checkboxLed2.IsChecked = true;
+                            else
+                                checkboxLed2.IsChecked = false;
+                            break;
+                        case 3:
+                            if (msgPayload[1] == 1)
+                                checkboxLed3.IsChecked = true;
+                            else
+                                checkboxLed3.IsChecked = false;
+                            break;
+                    }
+                    break;
+                case Typemessage.DistanceIR:
+
+                    IRgauche.Content = msgPayload[0];
+                    IRcentre.Content = msgPayload[1];
+                    IRdroit.Content = msgPayload[2];
+
+                    break;
+                case Typemessage.VitesseConsigne:
+
+                    vitesseG.Content = "Vitesse Droite:" + msgPayload[0];
+                    vitesseD.Content = "Vitesse Gauche:" + msgPayload[1];
+
+                    break;
+            }
         }
     }
 }
