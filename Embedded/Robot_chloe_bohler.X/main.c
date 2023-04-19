@@ -73,12 +73,14 @@ int main(void) {
         int i;
         for(i=0; i< CB_RX1_GetDataSize(); i++)
         {
-            //unsigned char c = CB_RX1_Get();
+            unsigned char c = CB_RX1_Get();
+            void UartDecodeMessage(c);
+            
             //SendMessage(&c,1);
             //unsigned char payload[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r'};
             //UartEncodeAndSendMessage(0x0080, 7, (unsigned char*)payload);
         }
-        __delay32(1000);
+        //__delay32(1000);
 
         
         if (ADCIsConversionFinished()) {
