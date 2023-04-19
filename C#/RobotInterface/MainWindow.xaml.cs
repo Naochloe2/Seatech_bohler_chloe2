@@ -47,7 +47,6 @@ namespace RobotInterface
                 byte c = robot.byteListReceived.Dequeue();
                 DecodeMessage(c);
                 //textBoxReception.Text += "0x"+c.ToString("X2")+" ";
-                ProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
 
             }
         }
@@ -93,6 +92,12 @@ namespace RobotInterface
         {
             byte[] payload = Encoding.ASCII.GetBytes("Bonjour");
             UartEncodeAndSendMessage(0x0080, payload.Length, payload);
+
+            payload = new byte[] { 45, 78, 65 };
+            UartEncodeAndSendMessage((int)Typemessage.DistanceIR, payload.Length, payload);
+
+            payload = new byte[] { 45, 50 };
+            UartEncodeAndSendMessage((int)Typemessage.VitesseConsigne, payload.Length, payload);
 
 
             //byte[] byteList = new byte[20];
@@ -204,6 +209,7 @@ namespace RobotInterface
                     if (calculatedChecksum == receivedChecksum)
                     {
                         Console.WriteLine("decodage Reussi");
+                        ProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
                         //Success, on a un message valide
                     }
                     rcvState = StateReception.Waiting;
@@ -259,15 +265,15 @@ namespace RobotInterface
                     break;
                 case Typemessage.DistanceIR:
 
-                    IRgauche.Content = msgPayload[0];
-                    IRcentre.Content = msgPayload[1];
-                    IRdroit.Content = msgPayload[2];
+                    IRgauche.Content = msgPayload[0] + " cm";
+                    IRcentre.Content = msgPayload[1] + " cm";
+                    IRdroit.Content = msgPayload[2] + " cm";
 
                     break;
                 case Typemessage.VitesseConsigne:
 
-                    vitesseG.Content = "Vitesse Droite:" + msgPayload[0];
-                    vitesseD.Content = "Vitesse Gauche:" + msgPayload[1];
+                    vitesseG.Content = "Vitesse Droite: " + msgPayload[0] + "%";
+                    vitesseD.Content = "Vitesse Gauche: " + msgPayload[1] + "%";
 
                     break;
             }
