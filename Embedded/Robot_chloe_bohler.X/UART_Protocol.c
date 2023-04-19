@@ -88,7 +88,8 @@ void UartDecodeMessage(unsigned char c)
 
                     if (calculatedChecksum == receivedChecksum)
                     {
-
+                        SendMessageDirect('reussi', 6);
+                        UartProcessDecodedMessage (msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
                         //Success, on a un message valide
                     }
                     rcvState = 1;
@@ -100,11 +101,21 @@ void UartDecodeMessage(unsigned char c)
             }
 }
 
-//void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* payload)
-/*{
+void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* payload)
+{
+    switch (msgFunction)
+    {
+        case SET_ROBOT_STATE:
+            SetRobotState(msgPayload[0]);
+            break;
+        case SET_ROBOT_MANUAL_CONTROL:
+            SetRobotAutoControlState(msgPayload[0]);
+            break;
+        default:
+            break;
 //Fonction appelee apres le decodage pour executer l?action
 //correspondant au message recu
-}*/
+}
 
 //*************************************************************************/
 //Fonctions correspondant aux messages

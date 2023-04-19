@@ -93,8 +93,8 @@ namespace RobotInterface
             byte[] payload = Encoding.ASCII.GetBytes("Bonjour");
             UartEncodeAndSendMessage(0x0080, payload.Length, payload);
 
-            //payload = new byte[] { 45, 78, 65 };
-            //UartEncodeAndSendMessage((int)Typemessage.DistanceIR, payload.Length, payload);
+            payload = new byte[] { 45, 78, 65 };
+            UartEncodeAndSendMessage((int)Typemessage.DistanceIR, payload.Length, payload);
 
             payload = new byte[] { 45, 50 };
             UartEncodeAndSendMessage((int)Typemessage.VitesseConsigne, payload.Length, payload);
