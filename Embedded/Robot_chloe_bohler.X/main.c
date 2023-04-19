@@ -12,6 +12,7 @@
 #include "UART.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
+#include "UART_Protocol.h"
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -67,13 +68,15 @@ int main(void) {
 //        SendMessageDirect((unsigned char*) "Bonjour", 7);
 //        
 //        SendMessage((unsigned char*) "Bonjour", 7);
-//        __delay32(40000000);
+        //__delay32(40000000);
         
         int i;
         for(i=0; i< CB_RX1_GetDataSize(); i++)
         {
-            unsigned char c = CB_RX1_Get();
-            SendMessage(&c,1);
+            //unsigned char c = CB_RX1_Get();
+            //SendMessage(&c,1);
+            //unsigned char payload[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r'};
+            //UartEncodeAndSendMessage(0x0080, 7, (unsigned char*)payload);
         }
         __delay32(1000);
 
@@ -118,7 +121,9 @@ int main(void) {
                 sensorState = sensorState | 0b00010;
             if (robotState.distanceTelemetreExtremeDroit < thresholdExtDroite1)
                 sensorState = sensorState | 0b00001;
-
+            
+            unsigned char payload[] = {(unsigned char)robotState.distanceTelemetreGauche, (unsigned char)robotState.distanceTelemetreCentre, (unsigned char)robotState.distanceTelemetreDroit};
+            UartEncodeAndSendMessage(0x0030, 3, (unsigned char*)payload);
         }
     }
 }
@@ -161,6 +166,7 @@ int main(void) {
 
 //    if (nextStateRobot != stateRobot - 1)
 //        stateRobot = nextStateRobot;
+
 
 void OperatingSystemLoop(void) {
 
