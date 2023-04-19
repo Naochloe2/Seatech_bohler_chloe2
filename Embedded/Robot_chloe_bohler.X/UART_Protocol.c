@@ -37,7 +37,7 @@ int msgDecodedPayloadIndex = 0;
 
 
 int rcvState = 1;
-/*
+
 void UartDecodeMessage(unsigned char c)
 {
 //Fonction prenant en entree un octet et servant a reconstituer les trames
@@ -71,7 +71,7 @@ void UartDecodeMessage(unsigned char c)
                     else
                     {
                         msgDecodedPayloadIndex = 0;
-                        msgDecodedPayload = unsigned char [msgDecodedPayloadLength];
+                        msgDecodedPayload = c[msgDecodedPayloadLength];
                         rcvState = 6;
                     }
 
@@ -83,13 +83,12 @@ void UartDecodeMessage(unsigned char c)
                     break;
                 case 7:
 
-                    int calculatedChecksum = CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
-                    int receivedChecksum = c;
+                    int calculatedChecksum = UartCalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+                    int receivedChecksum = (int)c;
 
                     if (calculatedChecksum == receivedChecksum)
                     {
-                        Console.WriteLine("decodage Reussi");
-                        UartProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+
                         //Success, on a un message valide
                     }
                     rcvState = 1;
@@ -98,7 +97,8 @@ void UartDecodeMessage(unsigned char c)
                 default:
                     rcvState = 1;
                     break;
-}*/
+            }
+}
 
 //void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* payload)
 /*{
